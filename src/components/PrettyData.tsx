@@ -1,6 +1,6 @@
 import router from "next/router"
 import { useEffect, useState } from "react"
-import { useDataStore } from "store/dataStore"
+import { useDataStore } from "stores/dataStore"
 import { DataModel } from '@glazed/datamodel'
 import { DIDDataStore } from '@glazed/did-datastore'
 import { CeramicClient } from '@ceramicnetwork/http-client'
@@ -9,9 +9,13 @@ const PrettyData = ({ record, definitionId, did }: any) => {
   const [definition, setDefinition] = useState<any>(null)
   const setCurrentData = useDataStore((state: any) => state.setCurrentData) as any
 
-  const goToNextPage = () => {
+  const goToRecord = () => {
     setCurrentData(record)
-    router.push(`/did/${did}/${definitionId}`)
+    router.push(`/did/${did}/records/${definitionId}`)
+  }
+
+  const goToDefinitionDetails = () => {
+    router.push(`/definition/${definitionId}`)
   }
 
   useEffect(() => {
@@ -29,8 +33,14 @@ const PrettyData = ({ record, definitionId, did }: any) => {
   }, [])
 
   return (
-    <div>
-      {definition && <div onClick={goToNextPage} className="cursor-pointer">--Definition name: {definition.name}--</div>}
+    <div className="px-3 py-2">
+      {definition && (
+        <div className="flex justify-between">
+          <span>{definition.name}</span>
+          <button onClick={goToDefinitionDetails} className="px-2 py-1 text-white rounded-lg bg-blue-600 hover:bg-blue-800">Get Definition</button>
+          <button onClick={goToRecord} className="px-2 py-1 text-white rounded-lg bg-blue-600 hover:bg-blue-800">Get Record</button>
+        </div>
+      )}
     </div>
   )
 }
