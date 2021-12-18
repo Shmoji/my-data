@@ -9,6 +9,7 @@ import { DID } from 'dids'
 import { useWeb3React } from '@web3-react/core'
 import { useCeramicStore } from 'stores/ceramicStore'
 import useDID from './useDID'
+import CircleSpinner from './animations/CircleSpinner'
 
 const endpoint = "https://ceramic-clay.3boxlabs.com"
 
@@ -22,8 +23,10 @@ export default function LoginModal({ close }: { close: () => void }) {
   const ceramic = useCeramicStore((state: any) => state.ceramic)
   const setCeramic = useCeramicStore((state: any) => state.setCeramic)
   const isDIDActive = useDID()
+  const [isLoading, setIsLoading] = useState(false)
 
   const connectToDID = async () => {
+    setIsLoading(true)
     const ceramic = new CeramicClient(endpoint)
     const threeIdConnect = new ThreeIdConnect()
     const provider = new EthereumAuthProvider((window as any).ethereum, account as any)
@@ -41,6 +44,7 @@ export default function LoginModal({ close }: { close: () => void }) {
     await ceramic?.did?.authenticate()
     setCeramic(ceramic) // Make sure to set this AFTER authenticating
     localStorage.setItem('IS_DID_CONNECTED', 'true')
+    setIsLoading(false)
   }
 
   const disconnectFromDID = async () => {
@@ -98,6 +102,12 @@ export default function LoginModal({ close }: { close: () => void }) {
               <div>Connecting to a DID will allow you to change your data.</div>
               <button onClick={connectToDID} className="py-2 mt-2 text-lg font-bold text-white rounded-lg w-44 bg-blue-600 hover:bg-blue-800">Connect to DID</button>
               <button onClick={disconnectFromDID} className="py-2 mt-2 text-lg font-bold text-white rounded-lg w-44 bg-blue-600 hover:bg-blue-800">Disconnect from DID</button>
+              {isLoading && (
+                <div>
+                  <CircleSpinner color="white" bgcolor="#0857e0" />
+                  Loading...
+                </div>
+              )}
             </div>
           )}
           {step === 3 && (

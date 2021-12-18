@@ -103,30 +103,36 @@ const DataList = () => {
   return (
     <div className="px-4 md:px-20 flex justify-center">
       <div className="w-8/12">
-        <div>Path: {path}</div>
-        <div className="border">
-          {dataKeyValues.map((pair: any, i: any) => {
-            const valueType = Array.isArray(pair[1]) ? 'array' : typeof pair[1]
-            return (
-              <div
-                className={classNames(
-                  i + 1 !== dataKeyValues.length && 'border-b',
-                  'px-3 py-2',
-                )}
-                key={i}
-              >
-                {valueType !== 'array' && valueType !== 'object' ? (
-                  <div>
-                    <span>{pair[0]} ({valueType}): {pair[1]}</span>
-                    <button onClick={() => goToEditPage(pair)} className="px-2 py-1 text-white rounded-lg bg-blue-600 hover:bg-blue-800">Edit</button>
+        {dataKeyValues.length > 0 ? (
+          <>
+            <div className="my-3">Path: {path}</div>
+            <div className="border">
+              {dataKeyValues.map((pair: any, i: any) => {
+                const valueType = Array.isArray(pair[1]) ? 'array' : typeof pair[1]
+                return (
+                  <div
+                    className={classNames(
+                      i + 1 !== dataKeyValues.length && 'border-b',
+                      'px-3 py-2',
+                    )}
+                    key={i}
+                  >
+                    {valueType !== 'array' && valueType !== 'object' ? (
+                      <div>
+                        <span>{pair[0]} ({valueType}): {pair[1]}</span>
+                        <button onClick={() => goToEditPage(pair)} className="px-2 py-1 text-white rounded-lg bg-blue-600 hover:bg-blue-800">Edit</button>
+                      </div>
+                    ): (
+                      <span onClick={() => goToNextPage(pair)} className="cursor-pointer">{pair[0]} ({valueType})</span>
+                    )}
                   </div>
-                ): (
-                  <span onClick={() => goToNextPage(pair)} className="cursor-pointer">{pair[0]} ({valueType})</span>
-                )}
-              </div>
-            )
-          })}
-        </div>
+                )
+              })}
+            </div>
+          </>
+        ): (
+          <div>HOLD YOUR HORSES! Data is loading friends...</div>
+        )}
       </div>
     </div>
   )

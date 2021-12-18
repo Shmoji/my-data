@@ -28,22 +28,26 @@ const Definition = () => {
   return (
     <div className="px-4 md:px-20 flex justify-center">
       <div className="w-8/12">
-        Definition details:
-        {definition && (
-          <div className="border">
-            <div className="border-b px-3 py-2">
-              name: {definition.name}
+        {definition ? (
+          <>
+            <div>Definition details:</div>
+            <div className="border">
+              <div className="border-b px-3 py-2">
+                name: {definition.name}
+              </div>
+              <div className="border-b px-3 py-2">
+                description: {definition.description}
+              </div>
+              <div className="border-b px-3 py-2">
+                id: {definition.id.toString()}
+              </div>
+              <div className="px-3 py-2">
+                schema: {definition.schema}
+              </div>
             </div>
-            <div className="border-b px-3 py-2">
-              description: {definition.description}
-            </div>
-            <div className="border-b px-3 py-2">
-              id: {definition.id.toString()}
-            </div>
-            <div className="px-3 py-2">
-              schema: {definition.schema}
-            </div>
-          </div>
+          </>
+        ): (
+          <div>HOLD YOUR HORSES! Data is loading friends...</div>
         )}
       </div>
     </div>

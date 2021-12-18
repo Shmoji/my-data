@@ -40,18 +40,22 @@ const Index = () => {
 
   return (
     <div className="px-4 py-4 md:px-20 flex justify-center">
-      {!isLoading && (
-        <div className="w-8/12">
-          <div className="mb-4">Index of DID: {router.query.did}</div>
-          <div className="border">
-            {records.map((record: any, i: number) => {
-              return (
-                <PrettyData key={i} record={record} definitionId={definitionIds[i]} did={router.query.did} />
-              )
-            })}
-          </div>
-        </div>
-      )}
+      <div className="w-8/12">
+        {!isLoading ? (
+          <>
+            <div className="mb-4">Index of DID: {router.query.did}</div>
+            <div className="border">
+              {records.map((record: any, i: number) => {
+                return (
+                  <PrettyData key={i} record={record} definitionId={definitionIds[i]} did={router.query.did} />
+                )
+              })}
+            </div>
+          </>
+        ): (
+          <div>HOLD YOUR HORSES! Data is loading friends...</div>
+        )}
+      </div>
     </div>
   )
 }

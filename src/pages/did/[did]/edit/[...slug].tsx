@@ -110,29 +110,35 @@ const Edit = () => {
   return (
     <div className="px-4 md:px-20 flex justify-center">
       <div className="w-8/12">
-        <div>Path: {path}</div>
-        <div>Property: {valueToEdit || "Not found"}</div>
-        <div>Data: {data || "No record found"}</div>
-        <textarea
-          value={newData}
-          onChange={(e) => setNewData(e.target.value)}
-          className="mt-4 p-2 border rounded-md w-full"
-          placeholder="Enter new data..."
-        />
-        <button
-          onClick={submitChanges}
-          disabled={!isConnectedDIDTheOwner}
-          className={classNames(
-            !isConnectedDIDTheOwner ? 'bg-gray-200' : 'bg-blue-600 hover:bg-blue-800',
-            "px-2 py-1 text-white rounded-lg"
-          )}
-        >
-          Submit Changes
-        </button>
-        {!isConnectedDIDTheOwner && (
-          <div className="text-red-400">
-            You must be the owner of this data to edit it
-          </div>
+        {data ? (
+          <>
+            <div>Path: {path}</div>
+            <div>Property: {valueToEdit || "Not found"}</div>
+            <div>Data: {data || "No record found"}</div>
+            <textarea
+              value={newData}
+              onChange={(e) => setNewData(e.target.value)}
+              className="mt-4 p-2 border rounded-md w-full"
+              placeholder="Enter new data..."
+            />
+            <button
+              onClick={submitChanges}
+              disabled={!isConnectedDIDTheOwner}
+              className={classNames(
+                !isConnectedDIDTheOwner ? 'bg-gray-200' : 'bg-blue-600 hover:bg-blue-800',
+                "px-2 py-1 text-white rounded-lg"
+              )}
+            >
+              Submit Changes
+            </button>
+            {!isConnectedDIDTheOwner && (
+              <div className="text-red-400">
+                You must be the owner of this data to edit it
+              </div>
+            )}
+          </>
+        ): (
+          <div>HOLD YOUR HORSES! Data is loading friends...</div>
         )}
       </div>
     </div>
