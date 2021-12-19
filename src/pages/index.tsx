@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   const router = useRouter()
   const [did, setDid] = useState('')
   const [definitionID, setDefinitionID] = useState('')
-  const [schemaID, setSchemaID] = useState('')
+  const [streamID, setStreamID] = useState('')
 
   const goToIndex = () => {
     router.push(`/did/${did}`)
@@ -15,6 +15,10 @@ const Home: NextPage = () => {
 
   const goToDefinition = () => {
     router.push(`/definition/${definitionID}`)
+  }
+
+  const goToStream = () => {
+    router.push(`/stream/${streamID}`)
   }
 
   return (
@@ -28,6 +32,11 @@ const Home: NextPage = () => {
         <div className="flex justify-center mb-4">
           <input onChange={(e) => setDefinitionID(e.target.value)} value={definitionID} placeholder="Enter definition ID..." className="w-1/2 mr-2 border rounded-md p-1" />
           <button onClick={goToDefinition} className="px-2 py-1 text-white rounded-lg bg-blue-600 hover:bg-blue-800">Get Definition</button>
+        </div>
+
+        <div className="flex justify-center mb-4">
+          <input onChange={(e) => setStreamID(e.target.value)} value={streamID} placeholder="Enter stream ID..." className="w-1/2 mr-2 border rounded-md p-1" />
+          <button onClick={goToStream} className="px-2 py-1 text-white rounded-lg bg-blue-600 hover:bg-blue-800">Get Stream</button>
         </div>
       </div>
     </div>
