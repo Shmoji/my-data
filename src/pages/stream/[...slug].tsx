@@ -2,6 +2,8 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useDataStore } from "stores/dataStore"
 import classNames from "classnames"
+import A from "components/A"
+import DefaultLayout from "components/layouts/DefaultLayout"
 
 /**
  * streamId is always the 1st slug
@@ -51,7 +53,7 @@ const Stream = () => {
     const getStream = async () => {
       let loadedData = null
       // If no current data, then we need to load it from Ceramic
-      if (!currentData) {
+      // if (!currentData) {
         const data = await (await fetch(`http://localhost:7007/api/v0/streams/${streamId}`, {
           method: 'GET',
           headers: {
@@ -67,9 +69,9 @@ const Stream = () => {
           }
         })
         loadedData = getNestedValue(data, slugString)
-      } 
+      // } 
 
-      const finalData = currentData ? currentData : loadedData
+      const finalData = loadedData
       // If data is array, do not need to get keys because each key will just be incremental number
       if (finalData) {
         if (Array.isArray(finalData)) {
@@ -86,14 +88,22 @@ const Stream = () => {
     }
   }, [streamId, currentData, slug])
 
-  const path = slug.join(" / ")
+  const path = (
+    <div>
+      {slug.map((s: string, index: number) => (
+        <A href={`/stream/${slug.slice(0, index + 1).join('/')}`} disabled={index + 1 >= slug.length} key={s}>
+          <span className={classNames(index + 1 < slug.length ? 'text-blue-800' : 'cursor-default')}>{s}</span>{index + 1 < slug.length ? ' / ' : ''}
+        </A>
+      ))}
+    </div>
+  )
 
   return (
     <div className="px-4 md:px-20 flex justify-center">
       <div className="w-8/12">
       {dataKeyValues.length > 0 ? (
           <>
-            <div className="my-3">Path: {path}</div>
+            <div className="my-3">{path}</div>
             <div className="border">
               {dataKeyValues.map((pair: any, i: any) => {
                 const valueType = Array.isArray(pair[1]) ? 'array' : typeof pair[1]
@@ -123,6 +133,10 @@ const Stream = () => {
       </div>
     </div>
   )
+}
+
+Stream.layoutProps = {
+  Layout: DefaultLayout,
 }
 
 export default Stream

@@ -6,6 +6,7 @@ import { DIDDataStore } from '@glazed/did-datastore'
 import { CeramicClient } from '@ceramicnetwork/http-client'
 import classNames from 'classnames'
 import DefaultLayout from 'components/layouts/DefaultLayout'
+import A from 'components/A'
 
 const DataList = () => {
   const router = useRouter()
@@ -69,7 +70,7 @@ const DataList = () => {
 
       let loadedData = null
       // If no current data, then we need to load it from Ceramic
-      if (!currentData) {
+      // if (!currentData) {
         const record = await dataStore.getRecord(slug[0], router.query.did as any) as any
         // Get data based on slugs
         let slugString = ''
@@ -79,9 +80,9 @@ const DataList = () => {
           }
         })
         loadedData = getNestedValue(record, slugString)
-      } 
+      // } 
 
-      const finalData = currentData ? currentData : loadedData
+      const finalData = loadedData
       // If data is array, do not need to get keys because each key will just be incremental number
       if (finalData) {
         if (Array.isArray(finalData)) {
@@ -92,20 +93,28 @@ const DataList = () => {
         }
       }
     }
-    
+
     if (slug && slug.length > 0) {
       getDefinition()
     }
   }, [currentData, router.query.did, slug])
 
-  const path = slug.join(" / ")
+  const path = (
+    <div>
+      {slug.map((s: string, index: number) => (
+        <A href={`/did/${router.query.did}/records/${slug.slice(0, index + 1).join('/')}`} disabled={index + 1 >= slug.length} key={s}>
+          <span className={classNames(index + 1 < slug.length ? 'text-blue-800' : 'cursor-default')}>{s}</span>{index + 1 < slug.length ? ' / ' : ''}
+        </A>
+      ))}
+    </div>
+  )
 
   return (
     <div className="px-4 md:px-20 flex justify-center">
       <div className="w-8/12">
         {dataKeyValues.length > 0 ? (
           <>
-            <div className="my-3">Path: {path}</div>
+            <div className="my-3">{path}</div>
             <div className="border">
               {dataKeyValues.map((pair: any, i: any) => {
                 const valueType = Array.isArray(pair[1]) ? 'array' : typeof pair[1]

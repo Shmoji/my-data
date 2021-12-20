@@ -6,6 +6,7 @@ import { useCeramicStore } from "stores/ceramicStore"
 import DefaultLayout from "components/layouts/DefaultLayout"
 import CeramicClient from "@ceramicnetwork/http-client"
 import classNames from "classnames"
+import A from "components/A"
 
 const Edit = () => {
   const ceramic = useCeramicStore((state: any) => state.ceramic)
@@ -104,7 +105,15 @@ const Edit = () => {
     }
   }, [ceramic, did])
 
-  const path = slug.join(" / ")
+  const path = (
+    <div>
+      {slug.map((s: string, index: number) => (
+        <A href={`/did/${router.query.did}/records/${slug.slice(0, index + 1).join('/')}`} disabled={index + 1 >= slug.length} key={s}>
+          <span className={classNames(index + 1 < slug.length ? 'text-blue-800' : 'cursor-default')}>{s}</span>{index + 1 < slug.length ? ' / ' : ''}
+        </A>
+      ))}
+    </div>
+  )
   const isConnectedDIDTheOwner = !ceramic || !did ? false : did === ceramic.did.id
 
   return (
@@ -112,7 +121,7 @@ const Edit = () => {
       <div className="w-8/12">
         {data ? (
           <>
-            <div>Path: {path}</div>
+            <div>{path}</div>
             <div>Property: {valueToEdit || "Not found"}</div>
             <div>Data: {data || "No record found"}</div>
             <textarea

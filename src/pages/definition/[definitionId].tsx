@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { DataModel } from '@glazed/datamodel'
 import { DIDDataStore } from '@glazed/did-datastore'
 import { CeramicClient } from '@ceramicnetwork/http-client'
+import DefaultLayout from "components/layouts/DefaultLayout"
 
 const Definition = () => {
   const router = useRouter()
@@ -52,6 +53,10 @@ const Definition = () => {
       </div>
     </div>
   )
+}
+
+Definition.layoutProps = {
+  Layout: DefaultLayout,
 }
 
 export default Definition
