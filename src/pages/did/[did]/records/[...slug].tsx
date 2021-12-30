@@ -101,6 +101,9 @@ const DataList = () => {
 
   const path = (
     <div>
+      <A href={`/did/${router.query.did}`} disabled={slug.length <= 0}>
+        <span className={classNames(slug.length > 0 ? 'text-blue-800' : 'cursor-default')}>Index</span>{slug.length > 0 ? ' / ' : ''}
+      </A>
       {slug.map((s: string, index: number) => (
         <A href={`/did/${router.query.did}/records/${slug.slice(0, index + 1).join('/')}`} disabled={index + 1 >= slug.length} key={s}>
           <span className={classNames(index + 1 < slug.length ? 'text-blue-800' : 'cursor-default')}>{s}</span>{index + 1 < slug.length ? ' / ' : ''}

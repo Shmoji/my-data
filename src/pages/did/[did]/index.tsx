@@ -4,6 +4,7 @@ import { DIDDataStore } from '@glazed/did-datastore'
 import { CeramicClient } from '@ceramicnetwork/http-client'
 import PrettyData from 'components/PrettyData'
 import { useRouter } from 'next/router'
+import DefaultLayout from 'components/layouts/DefaultLayout'
 
 const Index = () => {
   const router = useRouter()
@@ -43,7 +44,7 @@ const Index = () => {
       <div className="w-8/12">
         {!isLoading ? (
           <>
-            <div className="mb-4">Index of DID: {router.query.did}</div>
+            <div className="mb-4">Data Index of: {router.query.did}</div>
             <div className="border">
               {records.map((record: any, i: number) => {
                 return (
@@ -58,6 +59,10 @@ const Index = () => {
       </div>
     </div>
   )
+}
+
+Index.layoutProps = {
+  Layout: DefaultLayout,
 }
 
 export default Index
