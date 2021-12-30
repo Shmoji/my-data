@@ -45,7 +45,7 @@ const Index = () => {
         {!isLoading ? (
           <>
             <div className="mb-4">Data Index of: {router.query.did}</div>
-            <div className="border">
+            <div className="border border-black rounded-md">
               {records.map((record: any, i: number) => {
                 return (
                   <PrettyData key={i} record={record} definitionId={definitionIds[i]} did={router.query.did} />

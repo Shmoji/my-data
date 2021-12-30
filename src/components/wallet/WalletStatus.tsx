@@ -5,10 +5,13 @@ import A from 'components/A'
 import useDID from 'components/useDID'
 import { useRouter } from 'next/dist/client/router'
 import { useRef, useState } from 'react'
+import { useCeramicStore } from 'stores/ceramicStore'
 import useOnClickOutside from 'utils/useOnClickOutside'
 
 export default function WalletStatus({ openModal }: { openModal: () => void }) {
   const { active, deactivate } = useWeb3React()
+  const ceramic = useCeramicStore((state: any) => state.ceramic)
+  const setCeramic = useCeramicStore((state: any) => state.setCeramic)
   const router = useRouter()
 
   const ref = useRef()
@@ -56,7 +59,10 @@ export default function WalletStatus({ openModal }: { openModal: () => void }) {
                 Wallet
               </A>
               <A
-                onClick={() => {
+                onClick={async () => {
+                  localStorage.setItem('IS_DID_CONNECTED', 'false')
+                  await ceramic.setDID(null)
+                  setCeramic(null)
                   deactivate()
                   setIsOpen(false)
                 }}

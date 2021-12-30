@@ -32,14 +32,14 @@ const Definition = () => {
         {definition ? (
           <>
             <div>Definition details:</div>
-            <div className="border">
-              <div className="border-b px-3 py-2">
+            <div className="border border-black rounded-md">
+              <div className="border-b border-black px-3 py-2">
                 name: {definition.name}
               </div>
-              <div className="border-b px-3 py-2">
+              <div className="border-b border-black px-3 py-2">
                 description: {definition.description}
               </div>
-              <div className="border-b px-3 py-2">
+              <div className="border-b border-black px-3 py-2">
                 id: {definition.id.toString()}
               </div>
               <div className="px-3 py-2">

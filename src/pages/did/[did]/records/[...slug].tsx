@@ -118,24 +118,26 @@ const DataList = () => {
         {dataKeyValues.length > 0 ? (
           <>
             <div className="my-3">{path}</div>
-            <div className="border">
+            <div className="border border-black rounded-md">
               {dataKeyValues.map((pair: any, i: any) => {
                 const valueType = Array.isArray(pair[1]) ? 'array' : typeof pair[1]
                 return (
                   <div
                     className={classNames(
-                      i + 1 !== dataKeyValues.length && 'border-b',
+                      i + 1 !== dataKeyValues.length && 'border-b border-black',
                       'px-3 py-2',
                     )}
                     key={i}
                   >
                     {valueType !== 'array' && valueType !== 'object' ? (
-                      <div>
+                      <div className="flex justify-between items-center">
                         <span>{pair[0]} ({valueType}): {pair[1]}</span>
                         <button onClick={() => goToEditPage(pair)} className="px-2 py-1 text-white rounded-lg bg-blue-600 hover:bg-blue-800">Edit</button>
                       </div>
                     ): (
-                      <span onClick={() => goToNextPage(pair)} className="cursor-pointer">{pair[0]} ({valueType})</span>
+                      <span onClick={() => goToNextPage(pair)} className="cursor-pointer">
+                        <span className="cursor-pointer hover:underline hover:text-blue-800">{pair[0]}</span> ({valueType})
+                      </span>
                     )}
                   </div>
                 )
